@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ol.css">
+    <script src="ol.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="container" style="height: 500px; width: 100%;"></div>
+
+    <script>
+
+        var map = new ol.Map({
+            target: "container",
+            layers:[
+                new ol.layer.Tile({
+                    source: new ol.source.OSM({ crossOrigin: null})
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([0 , 0]),
+                zoom: 5
+            })
+        })
+
+        map.on("click", function(eve){
+            var coordinate = eve.coordinate;
+            console.log(coordinate);
+        })
+
+    </script>
+    
+</body>
+</html>
