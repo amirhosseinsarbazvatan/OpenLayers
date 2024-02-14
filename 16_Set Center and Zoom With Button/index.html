@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ol.css">
+    <script src="ol.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="container" style="height: 500px; width: 100%;"></div>
+
+    <input type="button" id="zoom" value="Zoom">
+
+    <script>
+
+        var map = new ol.Map({
+            target: "container",
+            layers:[
+                new ol.layer.Tile({
+                    source: new ol.source.OSM({ crossOrigin: null})
+                })
+            ],
+
+            view: new ol.View({
+                projection: "EPSG:4326",
+                center: [51.38 , 35.64],
+                zoom: 15
+            })
+        })
+
+
+        var zoom_btn = document.getElementById("zoom");
+        zoom_btn.addEventListener("click", function(){
+            map.getView().setCenter([50.32, 32.65]);
+            map.getView().setZoom(10);
+        })
+
+
+
+    </script>
+    
+</body>
+</html>
