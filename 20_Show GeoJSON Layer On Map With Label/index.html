@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ol.css">
+    <script src="ol.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="container" style="height: 500px; width: 100%;"></div>
+
+
+    <script>
+
+        const geojson = {
+            "type": "FeatureCollection",
+            "features": [
+              {
+                "type": "Feature",
+                "properties": {
+                  "name" : "Region-1"
+                },
+                "geometry": {
+                  "coordinates": [
+                    [
+                      [
+                        51.33848281883459,
+                        35.71566673779358
+                      ],
+                      [
+                        51.24387115790563,
+                        35.71566673779358
+                      ],
+                      [
+                        51.24387115790563,
+                        35.66335199075618
+                      ],
+                      [
+                        51.33848281883459,
+                        35.66335199075618
+                      ],
+                      [
+                        51.33848281883459,
+                        35.71566673779358
+                      ]
+                    ]
+                  ],
+                  "type": "Polygon"
+                }
+              }
+            ]
+          };
+
+
+        var map = new ol.Map({
+            target: "container",
+            layers:[
+                new ol.layer.Tile({
+                    source: new ol.source.OSM({ crossOrigin: null})
+                })
+            ],
+
+            view:  new ol.View({
+                projection: "EPSG:4326",
+                center: [51.38 , 35.64],
+                zoom: 15
+            })
+        })
+
+        const style = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255,255,255, 0.7)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'black',
+                width: 2
+            }),
+            text: new ol.style.Text({
+              font: '20px "Arial',
+              fill: new ol.style.Fill({
+                color: 'black'
+              })
+            })
+        })
+
+
+        var vectorSource = new ol.source.Vector({
+            features: new ol.format.GeoJSON().readFeatures(geojson)
+        });
+
+        const vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: function(feature){
+              style.getText().setText(feature.get("name"));
+              return style;
+            }
+        });
+
+        map.addLayer(vectorLayer);
+
+        map.getView().fit(vectorSource.getExtent(), map.getSize());
+
+
+
+    </script>
+    
+</body>
+</html>
