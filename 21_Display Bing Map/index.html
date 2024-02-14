@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ol.css">
+    <script src="ol.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="container" style="height: 500px; width: 100%;"></div>
+
+    <select id="layer-select">
+        <option value="Aerial">Aerial</option>
+        <option value="AerialWithLabelsOnDemand" selected>Aerial with labels</option>
+        <option value="RoadOnDemand">Road</option>
+        <option value="CanvasDark">Road dark</option>
+        <option value="OrdnanceSurvey">Ordnance Survey</option>
+      </select>
+
+
+    <script>
+
+        const styles = [
+        'RoadOnDemand',
+        'Aerial',
+        'AerialWithLabelsOnDemand',
+        'CanvasDark',
+        'OrdnanceSurvey',
+      ];
+      const layers = [];
+      let i, ii;
+      for (i = 0, ii = styles.length; i < ii; ++i) {
+        layers.push(
+          new ol.layer.Tile({
+            visible: false,
+            preload: Infinity,
+            source: new ol.source.BingMaps({
+              key: 'AlYjkBkXWwLQZruRxOQtsLQf0aH2uOE5Y7xLODH82sSkrl_nNUg1QDYfrb1k2IeH',
+              imagerySet: styles[i],
+  
+            }),
+          })
+        );
+      }
+
+
+      
+      const map = new ol.Map({
+        layers: layers,
+        target: 'container',
+        view: new ol.View({
+          projection: "EPSG:4326",
+          center: [53.12, 31.52],
+          zoom: 13,
+        }),
+      });
+      
+      const select = document.getElementById('layer-select');
+      function onChange() {
+        const style = select.value;
+        for (let i = 0, ii = layers.length; i < ii; ++i) {
+          layers[i].setVisible(styles[i] === style);
+        }
+      }
+      select.addEventListener('change', onChange);
+      onChange();
+
+    </script>
+    
+</body>
+</html>
