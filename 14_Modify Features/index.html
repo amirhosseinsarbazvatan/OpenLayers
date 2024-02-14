@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ol.css">
+    <script src="ol.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="container" style="height: 500px; width: 100%;"></div>
+
+
+    <script>
+
+
+        var vectorSource = new ol.source.Vector();
+
+        var vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'red'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: 'blue',
+                    width: 2
+                }),
+                image: new ol.style.Circle({
+                    radius: 7,
+                    fill: new ol.style.Fill({
+                        color: 'green'
+                    })
+                })
+            })
+        })
+
+        const draw = new ol.interaction.Draw({
+            source: vectorSource,
+            type: 'Polygon'
+        })
+
+        var map = new ol.Map({
+            target: "container",
+            layers:[
+                new ol.layer.Tile({
+                    source: new ol.source.OSM({ crossOrigin: null})
+                }), vectorLayer
+            ],
+
+            view: new ol.View({
+                projection: "EPSG:4326",
+                center: [51.38 , 35.64],
+                zoom: 15
+            })
+        })
+        map.addInteraction(draw);
+
+
+        
+        const modify = new ol.interaction.Modify({
+            source: vectorSource
+        });
+        map.addInteraction(modify);
+
+
+
+
+    </script>
+    
+</body>
+</html>
